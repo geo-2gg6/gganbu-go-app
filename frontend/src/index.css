@@ -1,0 +1,78 @@
+:root {
+  --pink: #ff007a;
+  --teal: #00d49d;
+  --black: #121212;
+  --white: #f0f0f0;
+  --red-team: #b71c1c;
+  --blue-team: #0d47a1;
+  --gray: #333;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--black);
+  color: var(--white);
+  overflow: hidden;
+}
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+h1, h2 {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+}
+.btn {
+  background-color: var(--pink);
+  color: var(--white);
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin: 10px;
+  width: 80%;
+  max-width: 300px;
+}
+.btn:hover {
+  transform: scale(1.05);
+}
+.btn-secondary {
+  background-color: var(--teal);
+}
+input, textarea {
+  width: 80%;
+  max-width: 300px;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid var(--gray);
+  background-color: #222;
+  color: var(--white);
+  font-size: 1rem;
+}
+.player-list { list-style: none; padding: 0; width: 100%; }
+.player-list li { background-color: var(--gray); padding: 10px; margin: 5px 0; border-radius: 5px; }
+.team-reveal-container { height: 100vh; width: 100vw; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-size: 3rem; }
+.team-reveal-container .icon { font-size: 8rem; margin-bottom: 20px; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+.game-screen { padding: 20px; box-sizing: border-box; height: 100vh; width: 100vw; display: flex; flex-direction: column; justify-content: space-between; }
+.game-screen h2 { margin: 0; padding: 10px; color: white; }
+.game-content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.qr-code-container { background-color: white; padding: 20px; border-radius: 10px; }
+.scan-btn { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); }
+#qr-scanner { width: 90vw; max-width: 500px; }
