@@ -9,6 +9,13 @@ services:
     rewrites:
       - source: /*
         destination: /index.html
+    envVars:
+      - key: VITE_SOCKET_URL
+        # This automatically gets the URL from your backend service below
+        fromService:
+          type: web
+          name: gganbu-go-backend
+          property: url
 
   # This defines your backend web service
   - type: web
@@ -17,4 +24,13 @@ services:
     rootDir: backend
     buildCommand: npm install
     startCommand: node server.js
-    healthCheckPath: /
+    envVars:
+      - key: REDIS_URL
+        # This syncs the secret from your Upstash database
+        sync: false 
+      - key: CORS_ORIGIN
+        # This automatically gets the URL from your frontend service above
+        fromService:
+          type: static_site
+          name: gganbu-go-frontend
+          property: url
