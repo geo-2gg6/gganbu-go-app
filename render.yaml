@@ -1,0 +1,20 @@
+services:
+  # This defines your frontend static site
+  - type: static_site
+    name: gganbu-go-frontend
+    env: static
+    rootDir: frontend
+    buildCommand: npm run build
+    publishDir: dist
+    rewrites:
+      - source: /*
+        destination: /index.html
+
+  # This defines your backend web service
+  - type: web
+    name: gganbu-go-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /
