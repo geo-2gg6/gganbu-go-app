@@ -6,16 +6,10 @@ services:
     rootDir: frontend
     buildCommand: npm run build
     publishDir: dist
+    # This rewrite rule is the fix for the 'Not Found' error
     rewrites:
       - source: /*
         destination: /index.html
-    envVars:
-      - key: VITE_SOCKET_URL
-        # This automatically gets the URL from your backend service below
-        fromService:
-          type: web
-          name: gganbu-go-backend
-          property: url
 
   # This defines your backend web service
   - type: web
@@ -25,12 +19,13 @@ services:
     buildCommand: npm install
     startCommand: node server.js
     envVars:
-      - key: REDIS_URL
-        # This syncs the secret from your Upstash database
-        sync: false 
+      # This automatically gets the frontend URL for CORS
       - key: CORS_ORIGIN
-        # This automatically gets the URL from your frontend service above
         fromService:
           type: static_site
           name: gganbu-go-frontend
           property: url
+      # This tells Render to get the REDIS_URL value 
+      # from the secret you set in the dashboard
+      - key: REDIS_URL
+        sync: false
