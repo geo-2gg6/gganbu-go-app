@@ -20,7 +20,13 @@ const io = new Server(server, {
 });
 
 // Connect to Redis
-const pubClient = createClient({ url: process.env.REDIS_URL });
+const pubClient = createClient({
+  url: process.env.REDIS_URL,
+  socket: {
+    tls: true,
+    rejectUnauthorized: false
+  }
+});
 const subClient = pubClient.duplicate();
 
 Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
