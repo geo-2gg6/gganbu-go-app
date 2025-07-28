@@ -6,6 +6,7 @@ function HostPage() {
   const navigate = useNavigate();
 
   const handleCreateGame = async () => {
+    console.log('The API URL is:', import.meta.env.VITE_API_URL); // <-- ADD THIS LINE
     const parsedQuestions = questions.split('\n').filter(line => line.includes(';')).map(line => {
       const [question, answer] = line.split(';');
       return { question: question.trim(), answer: answer.trim() };
