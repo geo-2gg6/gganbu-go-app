@@ -6,7 +6,7 @@ import TeamReveal from '../components/TeamReveal';
 import QuestionView from '../components/QuestionView';
 import AnswerView from '../components/AnswerView';
 
-const socket = io(import.meta.env.VITE_SOCKET_URL);
+const socket = io(import.meta.env.VITE_API_URL);
 
 function GamePage() {
   const { gameCode } = useParams();
