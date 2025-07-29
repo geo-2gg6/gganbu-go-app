@@ -1,35 +1,52 @@
-import { useState, useEffect } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
-function QuestionView({ question, onScan }) {
-  const [showScanner, setShowScanner] = useState(false);
-  useEffect(() => {
-    if (!showScanner) return;
-    let scanner;
-    try {
-        scanner = new Html5QrcodeScanner('qr-scanner', { fps: 10, qrbox: { width: 250, height: 250 } }, false);
+// frontend/src/components/QuestionView.jsx
+// Make sure you have run "npm install html5-qrcode"
+import { Html5QrcodeScanner } from "html5-qrcode";
+import { useEffect, useState } from "react";
+
+function QuestionView({ player, onScan }) {
+    const [showScanner, setShowScanner] = useState(false);
+
+    useEffect(() => {
+        if (!showScanner) return;
+        
+        const scanner = new Html5QrcodeScanner(
+            'qr-scanner', 
+            { fps: 10, qrbox: { width: 250, height: 250 } }, 
+            false
+        );
+
         const onScanSuccess = (decodedText) => {
-          scanner.clear().then(() => {
+            scanner.clear();
             setShowScanner(false);
             onScan(decodedText);
-          });
         };
-        scanner.render(onScanSuccess, console.warn);
-    } catch (e) {
-        console.error("QR Scanner failed to start", e);
-    }
-    return () => { if (scanner) try { scanner.clear(); } catch(e) {} };
-  }, [showScanner, onScan]);
 
-  return (
-    <div className="game-content">
-      <h3>Your Question:</h3>
-      <p style={{ fontSize: '1.5rem' }}>{question || 'Waiting for new question...'}</p>
-      {showScanner ? (
-        <><div id="qr-scanner"></div><button className="btn" onClick={() => setShowScanner(false)}>Cancel</button></>
-      ) : (
-        <button className="btn scan-btn" onClick={() => setShowScanner(true)}>Scan Answer</button>
-      )}
-    </div>
-  );
+        scanner.render(onScanSuccess, console.warn);
+      
+        return () => {
+          if (scanner) {
+            try { scanner.clear(); } catch(e) { console.error("Failed to clear scanner", e); }
+          }
+        };
+      }, [showScanner, onScan]);
+
+    return (
+        <div className="question-view" style={{ backgroundColor: '#B71C1C', color: 'white', minHeight: '100vh', padding: '20px', textAlign: 'center' }}>
+            <h2>You are a QUESTION</h2>
+            <p>Your Score: {player.score}</p>
+            <hr/>
+            <h3 style={{ marginTop: '20px' }}>Your Question Is:</h3>
+            <h1 style={{ fontSize: '2rem', margin: '20px' }}>{player.currentQuestion}</h1>
+
+            {!showScanner && <button className="btn" onClick={() => setShowScanner(true)}>Scan QR Code</button>}
+            {showScanner && (
+                <>
+                    <div id="qr-scanner" style={{ width: '90vw', maxWidth: '500px', margin: 'auto' }}></div>
+                    <button className="btn" onClick={() => setShowScanner(false)}>Cancel Scan</button>
+                </>
+            )}
+        </div>
+    );
 }
+
 export default QuestionView;
